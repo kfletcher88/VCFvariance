@@ -35,8 +35,9 @@ open(LOG, ">> Variance.log");
 #open(VCF, "> VCF.check");
 #Check all required parameters are described. Die if not and print usage statement. If help requested, print help.
 
-my ($MQA,$MQR,$AB,$DP,$AF,$NA,$SQ,$MQ) = 0;
+my ($MQA,$MQR,$AB,$DP,$AF,$NA,$SQ,$MQ,$Perc) = 0;
 my @array = ();
+my @total = ();
 open(IN, "grep -v '#' $input |") or die"";
 open(OUT, "> $output") or die"";
 while(<IN>){
@@ -58,19 +59,19 @@ while(<IN>){
 #		$MQ = sprintf "%f",$7;
 		}
 	else {
+		$DP = 0;
 		$AF = 0
 		}
 	#Compare values from the line with the filtering parameters.
 #	Freebayes used AB. BCFtools does not
-#       next if($AB < 0.2);
-#	next if($AB > 0.8);
-        next if($AF < 0.2);
-	next if($AF > 0.8);
 	next if($DP < $cov * 0.8);
 	next if($DP > $cov * 1.2);
 	next if($MQA < 30);
 	next if($MQR < 30);
 	next if($MQ < 30);
+	push(@total, $AF);
+        next if($AF < 0.2);
+	next if($AF > 0.8);
 	#Add to array
 	push(@array, $AF);
 #	print VCF "$_\t$AF\n";
@@ -80,8 +81,14 @@ my $stat = Statistics::Descriptive::Full->new();
 $stat->add_data(\@array);
 my $variance = $stat->variance();
 my $size = @array;
+my $RA = @total;
+$Perc = sprintf "%.2f",$size/$RA;
 #Print those stats
-print LOG "$input\t$cov\t$size\t$variance\n";
+if($Perc <= 0.2){
+	print LOG "$input\t$cov\t$size\t$Perc\t Low Percentage of SNPs are Biallelic, could be haploid\n";
+	exit;
+	}
+print LOG "$input\t$cov\t$size\t$Perc\t$variance\n";
 print OUT "@array\n";
 #Close input
 close IN;
