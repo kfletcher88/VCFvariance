@@ -17,13 +17,13 @@ use strict;
 use warnings;
 use Statistics::Descriptive;
 use Getopt::Std;
-use vars qw($opt_h $opt_i $opt_c $opt_f);
-getopts('i:c:f:h');
+use vars qw($opt_h $opt_i $opt_c $opt_p);
+getopts('i:c:p:h');
 use File::Basename qw(basename);
 
 if ( (defined($opt_h)) || !(defined($opt_i)) ) {
 	print STDERR "\tPlease provide:\n\t\t-i input VCF\n\t\t-c Coverage of input sample.\n\n";
-	print STDERR "\tOptional flags include:\n\t-f Haploid Flag (default 0.8). \n\t\tReduce if reads and reference are a larger genetic distance apart\n\t\twith multiple fixed differences.\n\t\tCautious interpretation if reduced for low coverage sequencing\n";
+	print STDERR "\tOptional flags include:\n\t-p Percent Haploid Flag (default 80). \n\t\tPercentage of SNPS required to pass allele balance filter\n\t\tReduce if reads and reference are a larger genetic distance apart\n\t\twith multiple fixed differences.\n\t\tCautious interpretation if reduced for low coverage sequencing\n";
 	exit;
 }
 
@@ -34,7 +34,7 @@ my $output = (basename $opt_i).'.array';
 my ($cov) = ($input =~ /_0?([1-9][0-9]*)x/);
 #Enable user defined deviation from coverage. Useful if too few SNPs are measured with defaults.
 #Enable user defined haploid flag.
-my $Hflag = $opt_f || "0.8";
+my $Hflag = $opt_p || "80";
 open(LOG, ">> Variance.log");
 
 #open(VCF, "> VCF.check");
@@ -87,11 +87,12 @@ $stat->add_data(\@array);
 my $variance = $stat->variance();
 my $size = @array;
 my $RA = @total;
-$Perc = sprintf "%.2f",$size/$RA;
+$Perc = sprintf "%.3f",$size/$RA;
 #Print those stats
+$Perc = ($Perc*100);
 if($Perc <= $Hflag){
 	print LOG "$input\t$cov\t$size\t$Perc\tPossible_Haploid\n";
-	print STDERR "$Perc of SNPs observed from $input are biallelic. This suggests $input may be haploid";
+	print STDERR "\t${Perc}% of SNPs observed from $input are biallelic. \n\tThis suggests $input may be haploid\n";
 	exit;
 	}
 print LOG "$input\t$cov\t$size\t$Perc\t$variance\n";
