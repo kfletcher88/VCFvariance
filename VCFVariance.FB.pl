@@ -17,8 +17,8 @@ use strict;
 use warnings;
 use Statistics::Descriptive;
 use Getopt::Std;
-use vars qw($opt_h $opt_i $opt_c);
-getopts('i:c:h');
+use vars qw($opt_h $opt_i $opt_c $opt_f);
+getopts('i:c:f:h');
 use File::Basename qw(basename);
 
 if ( (defined($opt_h)) || !(defined($opt_i)) ) {
@@ -31,7 +31,11 @@ my $output = (basename $opt_i).'.array';
 ##Switch lines below if you want to set coverage on the command line. Second line will extract the coverage defined in the input file header.
 #my $cov = $opt_c if $opt_c;
 my ($cov) = ($input =~ /_0?([1-9][0-9]*)x/);
+#Enable user defined deviation from coverage. Useful if too few SNPs are measured with defaults.
+#Enable user defined haploid flag.
+my $Hflag = $opt_f || "0.8";
 open(LOG, ">> Variance.log");
+
 #open(VCF, "> VCF.check");
 #Check all required parameters are described. Die if not and print usage statement. If help requested, print help.
 
@@ -64,8 +68,8 @@ while(<IN>){
 		}
 	#Compare values from the line with the filtering parameters.
 #	Freebayes used AB. BCFtools does not
-	next if($DP < $cov * 0.8);
-	next if($DP > $cov * 1.2);
+	next if($DP < $cov * 0.4);
+	next if($DP > $cov * 1.4);
 	next if($MQA < 30);
 	next if($MQR < 30);
 	next if($MQ < 30);
@@ -84,8 +88,9 @@ my $size = @array;
 my $RA = @total;
 $Perc = sprintf "%.2f",$size/$RA;
 #Print those stats
-if($Perc <= 0.2){
-	print LOG "$input\t$cov\t$size\t$Perc\t Low Percentage of SNPs are Biallelic, could be haploid\n";
+if($Perc <= $Hflag){
+	print LOG "$input\t$cov\t$size\t$Perc\tPossible_Haploid\n";
+	print STDERR "$Perc of SNPs observed from $input are biallelic. This suggests $input may be haploid";
 	exit;
 	}
 print LOG "$input\t$cov\t$size\t$Perc\t$variance\n";
