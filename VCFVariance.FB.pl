@@ -17,13 +17,14 @@ use strict;
 use warnings;
 use Statistics::Descriptive;
 use Getopt::Std;
-use vars qw($opt_h $opt_i $opt_c $opt_p);
-getopts('i:c:p:h');
+use vars qw($opt_h $opt_i $opt_c $opt_p $opt_d);
+getopts('i:c:p:d:h');
 use File::Basename qw(basename);
 
 if ( (defined($opt_h)) || !(defined($opt_i)) ) {
-	print STDERR "\tPlease provide:\n\t\t-i input VCF\n\t\t-c Coverage of input sample.\n\n";
+	print STDERR "\tPlease provide:\n\t\t-i input VCF\n\t\t-c Coverage of input sample.\n\t\tCoverage may also be provided in the filename, \n\t\tpreceeded by an underscore, followed by an x e.g:\n\n\t\t\tSampleID_10x.vcf\n\n";
 	print STDERR "\tOptional flags include:\n\t-p Percent Haploid Flag (default 80). \n\t\tPercentage of SNPS required to pass allele balance filter\n\t\tReduce if reads and reference are a larger genetic distance apart\n\t\twith multiple fixed differences.\n\t\tCautious interpretation if reduced for low coverage sequencing\n";
+	print STDERR "\t-d Deviation from defined coverage allowed (default 0.2).\n\t\tIncrease deviation from coverage to increase number of SNPs surveyed. \n\t\tThis may be necessary if less than 1000 SNPs are detected.\n\t\tIncreasing deviation tends to bring variance closer to the mean\n";
 	exit;
 }
 
@@ -31,10 +32,14 @@ my $input = $opt_i if $opt_i;
 my $output = (basename $opt_i).'.array';
 ##Switch lines below if you want to set coverage on the command line. Second line will extract the coverage defined in the input file header.
 #my $cov = $opt_c if $opt_c;
-my ($cov) = ($input =~ /_0?([1-9][0-9]*)x/);
+my ($cov) = $opt_c || ($input =~ /_0?([1-9][0-9]*)x/);
 #Enable user defined deviation from coverage. Useful if too few SNPs are measured with defaults.
 #Enable user defined haploid flag.
 my $Hflag = $opt_p || "80";
+my $Cdev = $opt_d || "0.2";
+my $lbo = sprintf "%.2f",1-$Cdev;
+my $ubo = sprintf "%.2f",1+$Cdev;
+
 open(LOG, ">> Variance.log");
 
 #open(VCF, "> VCF.check");
@@ -68,9 +73,8 @@ while(<IN>){
 		$AF = 0
 		}
 	#Compare values from the line with the filtering parameters.
-#	Freebayes used AB. BCFtools does not
-	next if($DP < $cov * 0.4);
-	next if($DP > $cov * 1.4);
+	next if($DP < $cov * $lbo);
+	next if($DP > $cov * $ubo);
 	next if($MQA < 30);
 	next if($MQR < 30);
 	next if($MQ < 30);
