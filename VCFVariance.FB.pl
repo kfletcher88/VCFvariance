@@ -23,6 +23,7 @@ use File::Basename qw(basename);
 
 if ( (defined($opt_h)) || !(defined($opt_i)) ) {
 	print STDERR "\tPlease provide:\n\t\t-i input VCF\n\t\t-c Coverage of input sample.\n\n";
+	print STDERR "\tOptional flags include:\n\t-f Haploid Flag (default 0.8). \n\t\tReduce if reads and reference are a larger genetic distance apart\n\t\twith multiple fixed differences.\n\t\tCautious interpretation if reduced for low coverage sequencing\n";
 	exit;
 }
 
