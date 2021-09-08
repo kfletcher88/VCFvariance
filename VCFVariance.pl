@@ -26,6 +26,7 @@ if ( (defined($opt_h)) || !(defined($opt_i)) ) {
 	print STDERR "\tPlease provide:\n\t\t-i input VCF\n\t\t-c Coverage of input sample.\n\t\tCoverage may also be provided in the filename, \n\t\tpreceeded by an underscore, followed by an x e.g:\n\n\t\t\tSampleID_10x.vcf\n\n";
 	print STDERR "\tOptional flags include:\n\t-p Percent Haploid Flag (default 80). \n\t\tPercentage of SNPS required to pass allele balance filter\n\t\tReduce if reads and reference are a larger genetic distance apart\n\t\twith multiple fixed differences.\n\t\tCautious interpretation if reduced for low coverage sequencing\n";
 	print STDERR "\t-d Deviation from defined coverage allowed (default 0.4).\n\t\tIncrease deviation from coverage to increase number of SNPs surveyed. \n\t\tThis may be necessary if less than 1000 SNPs are detected.\n\t\tIncreasing deviation tends to bring variance closer to the mean\n";
+	print STDERR "\t-B Print the allele balance bar chart for the input VCF.\n\t\tRecommened only when coverage exceeds 50x\n\n";
 	exit;
 }
 my $input = $opt_i if $opt_i;
