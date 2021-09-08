@@ -79,8 +79,8 @@ while(<IN>){
 	next if($MQR < 30);
 	next if($MQ < 30);
 	push(@total, $AF);
-        next if($AF < 0.2);
-	next if($AF > 0.8);
+        next if($AF < 0.20);
+	next if($AF > 0.80);
 	#Add to array
 	push(@array, $AF);
 #	print VCF "$_\t$AF\n";
@@ -106,4 +106,4 @@ close IN;
 close OUT;
 #close LOG;
 system("Rscript /share/rwmwork/fletcher/scripts/Ploidy_v2.R $output");
-system("rm $output");
+#system("rm $output");
