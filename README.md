@@ -55,4 +55,4 @@ SF5_164x.vcf    164     0.4     80      297282  98.7    0.00788016117413868
 ## Plotting allele balance barcharts
 Option `-B` allows users to plot allele balance bar charts. This is only reccomended when 50x or greater sequencing coverage has been obtained.\
 An example bar chart:
-![Exampe allele balance bar chart](./images/SF5_164x.png)
+![Exampe allele balance bar chart](./images/SF5_164x.jpg)
