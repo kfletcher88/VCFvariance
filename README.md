@@ -29,7 +29,7 @@ perl VCFvariance.pl -h
        -d Deviation from defined coverage allowed (default 0.4).
                 Increase deviation from coverage to increase number of SNPs surveyed.
 
-       -B Print the allele balance bar chart for the input VCF.
+       -B Print the allele balance histograms for the input VCF.
                 Recommened only when coverage exceeds 50x
 ```
 
@@ -49,9 +49,15 @@ Input VCF       Coverage        -d      -p      HQ Variants Analyzed    HQ Hets 
 SF5_164x.vcf    164     0.4     80      297282  98.7    0.00788016117413868
 ```
 
-## Plotting allele balance barcharts
-Option `-B` allows users to plot allele balance bar charts. This is only reccomended when 50x or greater sequencing coverage has been obtained.\
-**An example bar chart:**
+## Plotting allele balance histograms
+Option `-B` allows users to plot allele balance histograms. This is only reccomended when 50x or greater sequencing coverage has been obtained.\
+**An example plot of a histogram consistent with diploidy:**
 
 
 ![Exampe allele balance bar chart](./images/SF5_164x.jpg)
+
+
+**An example plot of a histogram inconsistent with diploidy:**
+
+
+![Exampe allele balance bar chart](./images/P24_100x.jpg)

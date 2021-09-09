@@ -26,7 +26,7 @@ if ( (defined($opt_h)) || !(defined($opt_i)) ) {
 	print STDERR "\tPlease provide:\n\t\t-i input VCF\n\t\t-c Coverage of input sample.\n\t\tCoverage may also be provided in the filename, \n\t\tpreceeded by an underscore, followed by an x e.g:\n\n\t\t\tSampleID_10x.vcf\n\n";
 	print STDERR "\tOptional flags include:\n\t-p Percent Haploid Flag (default 80). \n\t\tPercentage of SNPS required to pass allele balance filter\n\n";
 	print STDERR "\t-d Deviation from defined coverage allowed (default 0.4).\n\t\tIncrease deviation from coverage to increase number of SNPs surveyed. \n\n";
-	print STDERR "\t-B Print the allele balance bar chart for the input VCF.\n\t\tRecommened only when coverage exceeds 50x\n\n";
+	print STDERR "\t-B Print the allele balance histograms for the input VCF.\n\t\tRecommened only when coverage exceeds 50x\n\n";
 	exit;
 }
 my $input = $opt_i if $opt_i;
@@ -100,9 +100,9 @@ if($Perc <= $Hflag){
 	}
 print LOG "$input\t$cov\t$Cdev\t$Hflag\t$size\t$Perc\t$variance\n";
 close IN;
-#Print allele balance bar chart if requested
+#Plot allele balance histograms if requested
 if ( (defined($opt_B)) ) {
-print STDERR "Printing Allele balance bar chart for $input\n";
+print STDERR "Printing Allele balance histogram for $input\n";
 open(OUT, "> $output") or die"";
 print OUT "@array\n";
 #Close input
