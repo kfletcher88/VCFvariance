@@ -45,8 +45,8 @@ VCFvariance.pl will output a tab-delimited text file describing:
 
 **An example:**
 ```
-Input VCF       Coverage        -d      -p      HQ Variants Analyzed    HQ Hets Variance
-SF5_164x.vcf    164     0.4     80      297282  98.7    0.00788016117413868
+Input VCF	Coverage	-d	-p	HQ Variants Analyzed	%HQ Hets	Variance
+SF5_164x.vcf	164		0.4	80	297282			98.7		0.00788016117413868
 ```
 
 ## Plotting allele balance histograms
