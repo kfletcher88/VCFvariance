@@ -1,6 +1,11 @@
-# VCFvariance
+# VCFvariance.pl
 
+VCFvariance.pl is a script used to calculate the variance of allele balance for SNPs in a VCF file, called with FreeBayes (tested on v1.2).
+Variance of allele balance can be used to determine if the variants in a VCF are consistent with diploidy. The expectation for a diploid is that reads will sample two haplotypes equally, meaning half the reads covering SNPs will represent the first genotype. The other half of the reads will cover the second genotype. This means that the allele balance for diploids should be approximately 0.5 and there should be low variance of allele balance within the sample.
+Genomes inconsistent with diploidy (polyplods, heterokaryons, large scale copy number variants) will exhibit a larger variance of allele balance since they have more than two haplotypes. For example, in a triploid allele balance would be expected to be 0.33/0.66. This will increase the varaince of allele balance within the sample allowing detection.
+This method is sensitive down to 10x whole genome sequencing coverage.
 
+##Usage
 ```
 perl VCFvariance.pl -h
         Please provide:
