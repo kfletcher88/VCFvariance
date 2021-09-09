@@ -43,7 +43,7 @@ VCFvariance.pl will output a tab-delimited text file describing:
 6. Percent of high quality polymorphisms inferred to be heterozygous.
 7. Variance of allele balance for polymorphisms.
 
-An example:
+**An example:**
 ```
 Input VCF       Coverage        -d      -p      HQ Variants Analyzed    HQ Hets Variance
 SF5_164x.vcf    164     0.4     80      297282  98.7    0.00788016117413868
@@ -51,7 +51,7 @@ SF5_164x.vcf    164     0.4     80      297282  98.7    0.00788016117413868
 
 ## Plotting allele balance barcharts
 Option `-B` allows users to plot allele balance bar charts. This is only reccomended when 50x or greater sequencing coverage has been obtained.\
-An example bar chart.
+**An example bar chart:**
 
 
 ![Exampe allele balance bar chart](./images/SF5_164x.jpg)
