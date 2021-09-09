@@ -51,13 +51,13 @@ SF5_164x.vcf    164     0.4     80      297282  98.7    0.00788016117413868
 
 ## Plotting allele balance histograms
 Option `-B` allows users to plot allele balance histograms. This is only reccomended when 50x or greater sequencing coverage has been obtained.\
-**An example plot of a histogram <ins>consistent<\ins> with diploidy:**
+**An example plot of a histogram <ins>consistent</ins> with diploidy:**
 
 
 ![Exampe allele balance bar chart](./images/SF5_164x.jpg)
 
 
-**An example plot of a histogram <ins>inconsistent<\ins> with diploidy:**
+**An example plot of a histogram <ins>inconsistent</ins> with diploidy:**
 
 
 ![Exampe allele balance bar chart](./images/P24_100x.jpg)
