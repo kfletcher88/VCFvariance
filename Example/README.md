@@ -1,4 +1,4 @@
-#Walkthrough
+# Walkthrough
 The directory `data` contains four variance call files (VCFs) which can be used to create the images below. These VCFs have been randomly downsampled to 100,000 variant lines so they can be posted on GitHub. To run VCFvariance:
 ```
 perl ../VCFVariance.pl -i data/SF5ds_10x.vcf
@@ -68,3 +68,4 @@ perl ../VCFVariance.pl -i data/SF5ds_50x.vcf -B
 perl ../VCFVariance.pl -i data/P24ds_50x.vcf -B
 ```
 This will result in two new files in the current working directory called `SF5ds_50x.jpg` and `P24ds_50x.jpg` which look like the below.
+![Histograms of allele balance for downsamples data of Bremia lactucae isolates SF5 and P24](./Images/ExampleFigureE.png)
