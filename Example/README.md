@@ -1,5 +1,5 @@
 # Walkthrough
-The directory `data` contains four variance call files (VCFs) which can be used to create the images below. These VCFs have been randomly downsampled to 100,000 variant lines so they can be posted on GitHub. To run VCFvariance:
+The directory `./data` contains four example variance call files (VCFs). These VCFs have been randomly downsampled to 100,000 variant lines so they can be posted on GitHub. To run VCFvariance:
 ```
 perl ../VCFVariance.pl -i data/SF5ds_10x.vcf
 ```
@@ -35,6 +35,7 @@ p <- ggplot(dat, aes(x=Coverage,y=Variance))+geom_point()+theme_bw()
 p
 ```
 ![Variance of allele balance, no labels](./Images/ExampleFigureA.png)
+
 If we want to add labels to the data we can do this by subsetting the first column
 ```
 dat$label <- sub(".*/","", dat$Input.VCF)
@@ -44,13 +45,15 @@ p <- p+geom_text_repel(aes(label=label))
 p
 ```
 ![Variance of allele balance, labels added](./Images/ExampleFigureB.png)
+
 We can also add a horizontal line at 0.019, which is used for the cut off for diploidy.
 ```
 p <- p+geom_hline(yintercept=0.019, linetype="dashed")
 p
 ```
 ![Variance of allele balance, with cutoff indicator](./Images/ExampleFigureC.png)
-Finally we can add the contours reported in Figure 3 and 5 to 8 in the paper.
+
+Finally we can add the contours reported in Figures 3 and 5 to 8 in the paper. The data for these contours is in `./data/BlacContours.txt`.
 ```
 cont <- read.table("data/BlacContours.txt", sep='\t', header=T)
 p <- ggplot(dat, aes(x=Coverage,y=Variance))+
@@ -62,7 +65,8 @@ geom_hline(yintercept=0.019, linetype="dashed")
 p
 ```
 ![Variance of allele balance, with contours](./Images/ExampleFigureD.png)
-In addition, histograms of allele balance can be printed with the script.
+
+In addition, histograms of allele balance can be printed with the script using the `-B` flag.
 ```
 perl ../VCFVariance.pl -i data/SF5ds_50x.vcf -B
 perl ../VCFVariance.pl -i data/P24ds_50x.vcf -B
