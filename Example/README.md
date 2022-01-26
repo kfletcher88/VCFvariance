@@ -1,7 +1,7 @@
 # Walkthrough
 The directory `./data` contains four example variance call files (VCFs). These VCFs have been randomly downsampled to 100,000 variant lines so they can be posted on GitHub. To run VCFvariance:
 ```
-perl ../VCFVariance.pl -i data/SF5ds_10x.vcf
+perl ../VCFvariance.pl -i data/SF5ds_10x.vcf
 ```
 A new file called `Variance.log` is now in the current working directory, looking in this we can see the results of VCFvariance:
 ```
@@ -12,9 +12,9 @@ data/SF5ds_10x.vcf      10      0.4     80      20515   94.7    0.01597987179072
 Because this sample has a variance under 0.019 we would classify it as a diploid, which is correct.\
 We can now run all the other VCFs through VCFvariance.pl:
 ```
-perl ../VCFVariance.pl -i data/SF5ds_50x.vcf
-perl ../VCFVariance.pl -i data/P24ds_10x.vcf
-perl ../VCFVariance.pl -i data/P24ds_50x.vcf
+perl ../VCFvariance.pl -i data/SF5ds_50x.vcf
+perl ../VCFvariance.pl -i data/P24ds_10x.vcf
+perl ../VCFvariance.pl -i data/P24ds_50x.vcf
 ```
 Now we have results for all 4 VCFs in the `Variance.log` file. 
 ```
@@ -68,8 +68,8 @@ p
 
 In addition, histograms of allele balance can be printed with the script using the `-B` flag.
 ```
-perl ../VCFVariance.pl -i data/SF5ds_50x.vcf -B
-perl ../VCFVariance.pl -i data/P24ds_50x.vcf -B
+perl ../VCFvariance.pl -i data/SF5ds_50x.vcf -B
+perl ../VCFvariance.pl -i data/P24ds_50x.vcf -B
 ```
 This will result in two new files in the current working directory called `SF5ds_50x.jpg` and `P24ds_50x.jpg` which look like the below.
 ![Histograms of allele balance for downsamples data of Bremia lactucae isolates SF5 and P24](./Images/ExampleFigureE.png)
